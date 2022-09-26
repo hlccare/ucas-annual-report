@@ -61,13 +61,7 @@
 }
 
 body {
-  border: 1px solid rgb(38, 179, 215);
-  /* min-height: 100vh; */
-  /* text-align: center; */
-  /* color: var(--color-text); */
-  color: gray;
-  /* background: var(--color-background); */
-  /* background-color: rgb(25, 94, 185); */
+  color: black;
   background-color: white;
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;

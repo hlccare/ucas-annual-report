@@ -1,4 +1,14 @@
 <script setup lang="ts">
+import * as swiperAni from "./assets/style/animate"; //根据自己的路径进行引入
+import {
+  SlideOne,
+  SlideTwo,
+  SlideThree,
+  SlideFour,
+  SlideFive,
+  SlideSix,
+} from "./components/slides/index";
+
 import SwiperClass, {
   Pagination,
   Navigation,
@@ -14,7 +24,7 @@ import "swiper/css/effect-fade";
 import "swiper/css/effect-flip";
 import "swiper/css/effect-cards";
 
-import { ref } from "vue";
+import { nextTick, ref } from "vue";
 
 let vSwiperRef: SwiperClass | null = null;
 const vSwiperIndex = ref<number>();
@@ -23,6 +33,17 @@ const setVSwiperRef = (swiper: SwiperClass) => {
 };
 const updateVSwiperIndex = () => {
   vSwiperIndex.value = vSwiperRef?.activeIndex;
+};
+
+const handleSlideChangeTransitionStart = (swiper: SwiperClass) => {
+  swiperAni.swiperAnimate(swiper);
+};
+
+const initFunc = (swiper: SwiperClass) => {
+  nextTick(() => {
+    swiperAni.swiperAnimateCache();
+    swiperAni.swiperAnimate(swiper);
+  });
 };
 
 const modules = ref([Grid, Pagination, Navigation, Mousewheel, EffectCards]);
@@ -38,32 +59,36 @@ const modules = ref([Grid, Pagination, Navigation, Mousewheel, EffectCards]);
       :slides-per-view="1"
       :space-between="18"
       :mousewheel="true"
+      @init="initFunc"
       @swiper="setVSwiperRef"
       @slide-change="updateVSwiperIndex"
+      @slide-change-transition-start="handleSlideChangeTransitionStart"
     >
-      <swiper-slide class="slide">
-        <div>年度总结1</div>
+      <swiper-slide class="slide slide-1">
+        <slide-one />
       </swiper-slide>
       <swiper-slide class="slide slide-2">
-        <div>年度总结2</div>
+        <slide-two />
       </swiper-slide>
-      <swiper-slide class="slide">
-        <div>年度总结3</div>
+      <swiper-slide class="slide slide-3">
+        <slide-three />
       </swiper-slide>
-      <swiper-slide class="slide">
-        <div>年度总结4</div>
+      <swiper-slide class="slide slide-4">
+        <slide-four />
       </swiper-slide>
-      <swiper-slide class="slide">
-        <div>年度总结5</div>
+      <swiper-slide class="slide slide-5">
+        <slide-five />
       </swiper-slide>
-      <swiper-slide class="slide">
-        <div>年度总结6</div>
+      <swiper-slide class="slide slide-6">
+        <slide-six />
       </swiper-slide>
     </swiper>
   </div>
 </template>
 
 <style scoped>
+@import url("../src/assets/style/animate.min.css");
+
 .wrapper {
   width: 100%;
   height: 100%;
@@ -92,5 +117,12 @@ const modules = ref([Grid, Pagination, Navigation, Mousewheel, EffectCards]);
 }
 .slide-4 {
   background-color: orange;
+}
+.slide-5 {
+  background-color: indianred;
+}
+
+.slide-6 {
+  background-color: steelblue;
 }
 </style>
